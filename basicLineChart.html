@@ -1,17 +1,20 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Bootstrap demo</title>
-    <script type="text/javascript" src="https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"></script>
-  </head>
-  
-  <body>
-	<div id="homeChart" style="background-color:#E4DEBE; width:500px; height:500px;">
-		<script>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Ligtweight Charts Basit Örnek</title>
+	<!-- Lightweight charts CDN linki -->
+	<script type="text/javascript" src="https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"></script>
+</head>
 
+<body>
+	<div id="basicChart" style="background-color:#E4DEBE; width:500px; height:500px;">
+		<script>
+			console.log("Script başladı");  //konsola start yazdir
+
+			var basicChart = LightweightCharts.createChart(document.getElementById("basicChart")); //grafik olusturuldu
 		</script>
 	</div>
-  </body>
+</body>
 </html>
