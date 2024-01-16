@@ -17,7 +17,7 @@
 			startTimeStamp = startTime.getTime() / 1000; //get start time as time stamp (divide it 1000 to get seconds since 1970)
 			
 			var randomDatas = []; //an empty data array we need to fill it with {value: value, time: timestamp} formatted objects
-			var oneDayAsMiliseconds = (24 * 60 * 60); //seconds in 1 day
+			var oneDayAsSeconds = (24 * 60 * 60); //seconds in 1 day
 
 			//generate random datas 
 			for(i=0; i<=100; i++)
@@ -26,7 +26,7 @@
 				var randomData = {value: randomValue, time: startTimeStamp};	//random data formatted with random value and time
 				console.log(randomData);										//write consele and see result
 				randomDatas.push(randomData);									//Push randomData object to randomDatas array variable
-				startTimeStamp = startTimeStamp + oneDayAsMiliseconds;			//increase startTimeStamp
+				startTimeStamp = startTimeStamp + oneDayAsSeconds;			//increase startTimeStamp
 			}
 
 			//create chart 
