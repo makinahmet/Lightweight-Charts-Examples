@@ -3,17 +3,39 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Ligtweight Charts Basit Örnek</title>
-	<!-- Lightweight charts CDN linki -->
+	<title>Ligtweight Charts Simple Example</title>
+	<!-- Lightweight charts CDN link -->
 	<script type="text/javascript" src="https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"></script>
 </head>
 
 <body>
 	<div id="basicChart" style="background-color:#E4DEBE; width:500px; height:500px;">
 		<script>
-			console.log("Script başladı");  //konsola start yazdir
+			console.log("Script started");
 
-			var basicChart = LightweightCharts.createChart(document.getElementById("basicChart")); //grafik olusturuldu
+			//set some data to see on chart
+			const data = 
+			[
+				{ value: 0,  time: 1642425322 }, 
+				{ value: 8,  time: 1642511722 }, 
+				{ value: 10, time: 1642598122 }, 
+				{ value: 20, time: 1642684522 }, 
+				{ value: 3,  time: 1642770922 }, 
+				{ value: 43, time: 1642857322 }, 
+				{ value: 41, time: 1642943722 }, 
+				{ value: 43, time: 1643030122 }, 
+				{ value: 56, time: 1643116522 }, 
+				{ value: 46, time: 1643202922 }
+			];
+
+			//create chart 
+			const basicChart = LightweightCharts.createChart(document.getElementById("basicChart")); 
+			//add a line to chart
+			const line = basicChart.addLineSeries();
+			//assign data array to line 
+			line.setData(data);
+			//fit content to timescale axis 
+			basicChart.timeScale().fitContent();
 		</script>
 	</div>
 </body>
