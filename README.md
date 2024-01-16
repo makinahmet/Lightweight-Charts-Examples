@@ -1,2 +1,3 @@
-This repo is about tradingview lightweight charts.
+This repo is about tradingview lightweight charts.<br />
 There is some useful examples.
+
