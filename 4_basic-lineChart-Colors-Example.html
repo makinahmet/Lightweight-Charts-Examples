@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Ligtweight Charts Colors Example</title>
+	<!-- Lightweight charts CDN link -->
+	<script type="text/javascript" src="https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"></script>
+</head>
+
+<body>
+	<div id="basicChart" style="background-color:#E4DEBE; width:500px; height:500px;">
+		<script>
+			console.log("Script started");
+
+			var startTime = new Date("Jan 01 2020"); //choose a start time for datas 
+			startTimeStamp = startTime.getTime() / 1000; //get start time as time stamp (divide it 1000 to get seconds since 1970)
+			
+			var randomDatas = []; //an empty data array we need to fill it with {value: value, time: timestamp} formatted objects
+			var oneHourInSeconds = (60 *60 ); //1 hour in seconds
+
+			//generate random datas 
+			for(i=0; i<=100; i++)
+			{
+				var randomValue = Math.floor(Math.random() * 10);				      //a random value
+				var randomData = {value: randomValue, time: startTimeStamp};	//random data formatted with random value and time
+				//console.log(randomData);										                //write consele and see result
+				randomDatas.push(randomData);								                 	//Push randomData object to randomDatas array variable
+				startTimeStamp = startTimeStamp + oneHourInSeconds;			      //increase startTimeStamp
+			}
+
+			//create chart 
+			const basicChart = LightweightCharts.createChart(
+				document.getElementById("basicChart")); 
+
+			//add a line to chart
+			const line = basicChart.addLineSeries();
+			//assign randomDatas array to line 
+			line.setData(randomDatas);
+
+      //change line color and thickness
+      line.applyOptions({
+        color: "red",   
+        lineWidth: 2, //from 1 to 4 as pixels
+        pointMarkersVisible: false, //Show circle markers on each point or not
+      });
+
+      //change chart colors
+      basicChart.applyOptions(
+        {
+          layout: {
+            background: { color: '#222' },
+            textColor: '#DDD',              //this effects timescale text color too
+          },
+          grid: {
+              vertLines: { color: '#444' },
+              horzLines: { color: '#444' },
+          },
+        }
+      );
+
+      //change timescale colors and other options.
+      basicChart.timeScale().applyOptions({
+        borderColor: "#aaa",
+        timeVisible: true,
+        secondsVisible: false,   
+        visible: true,
+      });
+
+      //change pricescale colors and other options
+      basicChart.priceScale('right').applyOptions({
+        borderColor: "#aaa",
+        textColor: "#fff",
+        visible: true,
+      });
+		</script>
+	</div>
+</body>
+</html>
