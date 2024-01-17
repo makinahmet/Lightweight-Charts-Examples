@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0"/>
+    <script type="text/javascript" src="https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"></script>
+  </head>
+
+  <body>
+    <div id="container" style="position: absolute; width: 1000px; height: 500px;"></div>
+
+<script>
+  function getCandlestickData()
+  {
+    var theUrl = "https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1h&limit=100";
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.open( "GET", theUrl, false ); // false for synchronous request
+    xmlHttp.send( null );
+    var response = xmlHttp.responseText;
+    response = response.substring(1);
+    response = response.substring(0, response.length -1);
+    response = response.replaceAll('"', "");
+    var responseArray = response.split("[");
+
+    var result = [];
+    for(i=0; i<responseArray.length; i++)
+    {
+      var newResponse = responseArray[i].substring(0,responseArray[i].length-2);
+      //document.write(newResponse + "<br />");
+
+      if(i!=0)
+      {
+        newResponse = newResponse.split(",");
+        var openTime = newResponse[0];
+        openTime = openTime / 1000;
+        var openPrice = newResponse[1];
+        var highPrice = newResponse[2];
+        var lowPrice = newResponse[3];
+        var closePrice = newResponse[4];
+        var volume = newResponse[5];
+        //document.write("Time : " + openTime + ", Open Price : " + openPrice + ", High Price : " + highPrice + ", Low Price : " + lowPrice + ", Close Price : " + closePrice + ", Volume : " + volume + "<br />");
+        result.push({time: openTime, open: openPrice, high: highPrice, low: lowPrice, close: closePrice});
+      }
+    }
+    return result;
+  }//get candlestick data
+
+
+  // Create the Lightweight Chart within the container element
+  const chart = LightweightCharts.createChart(document.getElementById('container'));
+
+  chart.applyOptions({
+    layout: {
+      background: {
+        color: '#161a1e',
+      },
+    lineColor: '#2B2B43',
+    textColor: '#D9D9D9',
+    },
+    grid: {
+      vertLines: {
+        color: '#2B2B43',
+      },
+      horzLines: {
+        color: '#363C4E',
+      },
+    },
+  });
+
+  // Generate sample data to use within a candlestick series
+  const candleStickData = getCandlestickData();
+
+  // Create the Main Series (Candlesticks)
+  const candleSeries = chart.addCandlestickSeries();
+  // Set the data for the Main Series
+  candleSeries.setData(candleStickData);
+
+  // Adding a window resize event handler to resize the chart when
+  // the window size changes.
+  // Note: for more advanced examples (when the chart doesn't fill the entire window)
+  // you may need to use ResizeObserver -> https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver
+  window.addEventListener("resize", () => {
+    chart.resize(window.innerWidth, window.innerHeight);
+  });
+
+</script>
+
+  </body>
+</html>
+
+
