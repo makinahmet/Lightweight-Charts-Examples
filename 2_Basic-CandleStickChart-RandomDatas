@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0"/>
+    <title>Lightweight Charts Candlestick Tutorial</title>
+    <!-- Adding the standalone version of Lightweight charts -->
+    <script type="text/javascript" src="https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"></script>
+  </head>
+
+  <body>
+    <div id="container" style="position: absolute; width: 100%; height: 100%"></div>
+    <script type="text/javascript">
+      // Function to generate a sample set of Candlestick datapoints
+      function generateCandlestickData() {
+		/*
+		Data format is object type
+		{
+            time: "2018-10-19",
+            open: 180.34,
+            high: 180.99,
+            low: 178.57,
+            close: 179.85,
+        }
+		*/
+
+		var dataArray = [];
+		var startTime = new Date("Jan 01 2020");
+		var startTimeStamp = startTime.getTime() / 1000;
+		var oneHourAsSeconds = 60*60;
+
+		//var typeTest = {time: startTimeStamp, open: 180.34, high: 180.99, low:178.57, close: 179.85};
+		//console.log(typeTest);
+
+		var openPrice = Math.floor(Math.random() * 180);
+		var prevClosePrice = 10;
+
+		for(i=0; i<100; i++)
+		{
+			var closePrice = prevClosePrice + (openPrice * (Math.round(Math.random()) * 2 - 1))/Math.random() * 1;
+			var highPrice = prevClosePrice + (Math.round(Math.random()) * 2) * 2;
+			highPrice = Math.floor(highPrice);
+			var lowPrice = closePrice - (Math.round(Math.random()) * 2) * 2;
+			lowPrice = Math.floor(lowPrice);
+			console.log("OP : " + prevClosePrice + ", CP : " + closePrice + ", H : " + highPrice + ", L : " + lowPrice);
+			dataArray.push({time: startTimeStamp, open: prevClosePrice, high: highPrice, low: lowPrice, close: closePrice});
+			startTimeStamp = startTimeStamp + oneHourAsSeconds;
+			prevClosePrice = closePrice;
+		}
+
+		return dataArray;
+      }
+
+      // Create the Lightweight Chart within the container element
+      const chart = LightweightCharts.createChart(document.getElementById('container'));
+
+	  //adjust timeScale To show hours
+	  chart.timeScale().applyOptions({
+			timeVisible: true,
+			secondsVisible: false,
+		});
+
+      // Generate sample data to use within a candlestick series
+      const candleStickData = generateCandlestickData();
+
+      // Create the Main Series (Candlesticks)
+      const candleSeries = chart.addCandlestickSeries();
+      // Set the data for the Main Series
+      candleSeries.setData(candleStickData);
+
+      // Adding a window resize event handler to resize the chart when
+      // the window size changes.
+      // Note: for more advanced examples (when the chart doesn't fill the entire window)
+      // you may need to use ResizeObserver -> https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver
+      window.addEventListener("resize", () => {
+        chart.resize(window.innerWidth, window.innerHeight);
+      });
+    </script>
+  </body>
+</html>
